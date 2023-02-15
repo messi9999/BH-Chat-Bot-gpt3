@@ -11,13 +11,14 @@ const Footer = ({ inputMessage, setInputMessage, handleSendMessage }) => {
         _focus={{
           border: '1px solid black',
         }}
+        value={inputMessage}
+        onChange={(e) => setInputMessage(e.target.value)}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
             handleSendMessage();
+            console.log('send');
           }
         }}
-        value={inputMessage}
-        onChange={(e) => setInputMessage(e.target.value)}
       />
       <Button
         bg="black"
