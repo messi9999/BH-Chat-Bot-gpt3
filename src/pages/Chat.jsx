@@ -1,4 +1,5 @@
 import { Flex } from '@chakra-ui/react';
+import axios from 'axios';
 import React, { useState } from 'react';
 import Divider from '../components/Divider';
 import Footer from '../components/Footer';
@@ -21,20 +22,49 @@ const Chat = () => {
   // const [apiResponse, setApiResponse] = useState('');
 
   const configuration = new Configuration({
-    apiKey: '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',
+    organization: 'Your org',
+    apiKey: 'Your apikey',
+    header: 'Content-Type: application/json',
   });
+  // const openai_api_key = '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';
   // console.log(process.env.REACT_APP_OPENAI_API_KEY);
   const openai = new OpenAIApi(configuration);
 
   const handleSendMessage = async () => {
-    console.log('sending');
-    console.log(inputMessage);
     if (!inputMessage.trim().length) {
       return;
     }
     const data = inputMessage;
     setMessages((old) => [...old, { from: 'me', text: data }]);
     setInputMessage('');
+    // let params = {
+    //   model: 'text-davinci-003',
+    //   prompt: 'Say this is a test',
+    //   max_tokens: 7,
+    //   temperature: 0,
+    //   top_p: 1,
+    //   n: 1,
+    //   stream: false,
+    //   logprobs: null,
+    //   stop: '\n',
+    // };
+    // const requestOptions = {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: 'Bearer ' + String(openai_api_key),
+    //   },
+    //   body: JSON.stringify(params),
+    // };
+    // const result = await fetch(
+    //   'https://api.openai.com/v1/completions',
+    //   requestOptions
+    // );
+    // const test = await result.json();
+    // const re_data = test.choices[0].text;
+
+    // console.log('test~~~~~~~~~~~~', re_data);
+    // setMessages((old) => [...old, { from: 'me', text: re_data }]);
 
     setIsLoading(true);
     let response = '';
@@ -46,8 +76,7 @@ const Chat = () => {
           temperature: 0.5,
           max_tokens: 4000,
         });
-        console.log(data);
-        console.log('response', result.data.choices[0].text);
+
         response = result.data.choices[0].text;
         // setApiResponse(result.data.choices[0].text);
       } catch (e) {
@@ -55,10 +84,11 @@ const Chat = () => {
         // setApiResponse('Something is going wrong, Please try again.');
         response = 'Something is going wrong, Please try again.';
       }
+      setMessages((old) => [...old, { from: 'computer', text: response }]);
 
-      setTimeout(() => {
-        setMessages((old) => [...old, { from: 'computer', text: response }]);
-      }, 1000);
+      // setTimeout(() => {
+      //   setMessages((old) => [...old, { from: 'computer', text: response }]);
+      // }, 1000);
       setIsLoading(false);
     }
   };
