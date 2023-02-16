@@ -1,5 +1,5 @@
 <p>
-    <img src="./screenshot/img.png" stype="aline:center"/>
+    <img src="./screenshot/img.png"/>
 </p>
 # Getting Started with Create React App
 
